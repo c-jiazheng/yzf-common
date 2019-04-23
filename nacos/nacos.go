@@ -29,7 +29,7 @@ func GetFirstIpAddress() (ip string) {
 
 				//log.Debugln("ip:", ipnet.IP.String())
 				//append(ips, ipnet.IP.String())
-				ip =  ipnet.IP.String()
+				ip = ipnet.IP.String()
 				break
 			}
 
@@ -38,7 +38,7 @@ func GetFirstIpAddress() (ip string) {
 	return
 }
 
-func RegistryNacosServer(nacosHost,listenAddress,nacosDiscoverClient string,nodeType string) (err error) {
+func RegistryNacosServer(nacosHost, listenAddress, nacosDiscoverClient string, nodeType string) (err error) {
 
 	client := service_client.ServiceClient{}
 	client.INacosClient = &nacos_client.NacosClient{}
@@ -47,11 +47,10 @@ func RegistryNacosServer(nacosHost,listenAddress,nacosDiscoverClient string,node
 		TimeoutMs: 30 * 1000,
 	})
 	HostPort := strings.Split(nacosHost, ":")
-	sListenAddress := strings.Split(listenAddress,":")
-
+	sListenAddress := strings.Split(listenAddress, ":")
 
 	port, _ := strconv.ParseInt(HostPort[1], 10, 64)
-	bindPort,_ := strconv.ParseInt(sListenAddress[1],10,64)
+	bindPort, _ := strconv.ParseInt(sListenAddress[1], 10, 64)
 	_ = client.SetServerConfig([]constant.ServerConfig{constant.ServerConfig{
 		IpAddr: HostPort[0],
 		Port:   uint64(port), //8848,
@@ -61,21 +60,22 @@ func RegistryNacosServer(nacosHost,listenAddress,nacosDiscoverClient string,node
 		nacosDiscoverClient = GetFirstIpAddress()
 	}
 
-	success, _ := client.RegisterServiceInstance(vo.RegisterServiceInstanceParam{
-		Ip:          HostPort[0],
+	/*success, _ := client.RegisterServiceInstance(vo.RegisterServiceInstanceParam{
+		Ip:          nacosDiscoverClient,
 		Port:        uint64(port),
 		ServiceName: "node-exporter",
 		Weight:      1000,
 		//ClusterName: "a",
 		Metadata: map[string]string{"node-type":nodeType},
 	})
-	fmt.Println(success)
+	fmt.Println(success)*/
 
 	err = client.StartBeatTask(vo.BeatTaskParam{
-		Ip: nacosDiscoverClient,
-		Port:    uint64(bindPort),
+		Ip:   nacosDiscoverClient,
+		Port: uint64(bindPort),
 		//Cluster: "a",
-		Dom: "node-exporter",
+		Dom:      "node-exporter",
+		Metadata: map[string]string{"node-type": nodeType},
 	})
 
 	return err
