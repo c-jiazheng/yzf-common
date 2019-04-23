@@ -1,15 +1,42 @@
 package nacos
 
 import (
-	mynet "github.com/c-jiazheng/yzf-common/net"
+	"fmt"
+	"net"
+
 	"github.com/peggypig/nacos-go/clients/nacos_client"
 	"github.com/peggypig/nacos-go/clients/service_client"
 	"github.com/peggypig/nacos-go/common/constant"
 	"github.com/peggypig/nacos-go/common/http_agent"
 	"github.com/peggypig/nacos-go/vo"
+	"os"
 	"strconv"
 	"strings"
 )
+
+func GetFirstIpAddress() (ip string) {
+	addrs, err := net.InterfaceAddrs()
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	for _, address := range addrs {
+		// 检查ip地址判断是否回环地址
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+
+				//log.Debugln("ip:", ipnet.IP.String())
+				//append(ips, ipnet.IP.String())
+				ip =  ipnet.IP.String()
+				break
+			}
+
+		}
+	}
+	return
+}
 
 func RegistryNacosServer(nacosHost,listenAddress,nacosDiscoverClient string) (err error) {
 
@@ -31,7 +58,7 @@ func RegistryNacosServer(nacosHost,listenAddress,nacosDiscoverClient string) (er
 	}})
 
 	if len(nacosDiscoverClient) == 0 {
-		nacosDiscoverClient = mynet.GetFirstIpAddress()
+		nacosDiscoverClient = GetFirstIpAddress()
 	}
 
 	err = client.StartBeatTask(vo.BeatTaskParam{
