@@ -38,7 +38,7 @@ func GetFirstIpAddress() (ip string) {
 	return
 }
 
-func RegistryNacosServer(nacosHost, listenAddress, nacosDiscoverClient string, nodeType string) (err error) {
+func RegistryNacosServer(nacosHost, listenAddress, nacosDiscoverClient, nodeType, serviceName string) (err error) {
 
 	client := service_client.ServiceClient{}
 	client.INacosClient = &nacos_client.NacosClient{}
@@ -74,7 +74,7 @@ func RegistryNacosServer(nacosHost, listenAddress, nacosDiscoverClient string, n
 		Ip:   nacosDiscoverClient,
 		Port: uint64(bindPort),
 		//Cluster: "a",
-		Dom:      "node-exporter",
+		Dom:      serviceName,
 		Metadata: map[string]string{"node_type": nodeType},
 	})
 
