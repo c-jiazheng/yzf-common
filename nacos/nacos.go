@@ -38,7 +38,7 @@ func GetFirstIpAddress() (ip string) {
 	return
 }
 
-func RegistryNacosServer(nacosHost,listenAddress,nacosDiscoverClient string) (err error) {
+func RegistryNacosServer(nacosHost,listenAddress,nacosDiscoverClient string,nodeType string) (err error) {
 
 	client := service_client.ServiceClient{}
 	client.INacosClient = &nacos_client.NacosClient{}
@@ -60,6 +60,16 @@ func RegistryNacosServer(nacosHost,listenAddress,nacosDiscoverClient string) (er
 	if len(nacosDiscoverClient) == 0 {
 		nacosDiscoverClient = GetFirstIpAddress()
 	}
+
+	success, _ := client.RegisterServiceInstance(vo.RegisterServiceInstanceParam{
+		Ip:          HostPort[0],
+		Port:        uint64(port),
+		ServiceName: "node-exporter",
+		Weight:      1000,
+		//ClusterName: "a",
+		Metadata: map[string]string{"node-type":nodeType},
+	})
+	fmt.Println(success)
 
 	err = client.StartBeatTask(vo.BeatTaskParam{
 		Ip: nacosDiscoverClient,
