@@ -3,7 +3,7 @@ package nacos
 import (
 	"fmt"
 	"testing"
-	"yzf-common/net"
+	"github.com/c-jiazheng/yzf-common/net"
 )
 
 func TestNewDiscoveryError(t *testing.T) {
