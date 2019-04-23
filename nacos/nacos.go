@@ -75,7 +75,7 @@ func RegistryNacosServer(nacosHost, listenAddress, nacosDiscoverClient string, n
 		Port: uint64(bindPort),
 		//Cluster: "a",
 		Dom:      "node-exporter",
-		Metadata: map[string]string{"node-type": nodeType},
+		Metadata: map[string]string{"node_type": nodeType},
 	})
 
 	return err
