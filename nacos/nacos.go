@@ -1,6 +1,7 @@
 package nacos
 
 import (
+	mynet "github.com/c-jiazheng/yzf-common/net"
 	"github.com/peggypig/nacos-go/clients/nacos_client"
 	"github.com/peggypig/nacos-go/clients/service_client"
 	"github.com/peggypig/nacos-go/common/constant"
@@ -8,7 +9,6 @@ import (
 	"github.com/peggypig/nacos-go/vo"
 	"strconv"
 	"strings"
-	mynet "yzf-common/net"
 )
 
 func RegistryNacosServer(nacosHost,listenAddress,nacosDiscoverClient string) (err error) {
