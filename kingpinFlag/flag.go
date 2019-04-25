@@ -8,12 +8,12 @@ func InitFlag(serviceName string) (nacosHost, nacosDiscoverClient, nodeType *str
 	//nacos注册中心地址
 	nacosHost = kingpin.Flag(
 		"nacos.server-address",
-		"Nacos server address default http://172.24.28.2:8848",
+		"Nacos server address default http://172.24.28.2:8848 or set evn NACOS_SERVER_ADDRESS",
 	).Default("172.24.28.2:8848").Envar("NACOS_SERVER_ADDRESS").String()
 	//注册到nacos的服务地址
 	nacosDiscoverClient = kingpin.Flag(
 		"nacos.discover-client-address",
-		"Registry Nacos client address.",
+		"Registry Nacos client address.or set evn NACOS_DISCOVER_CLIENT_ADDRESS",
 	).Default("").Envar("NACOS_DISCOVER_CLIENT_ADDRESS").String()
 	//节点类型
 	nodeType = kingpin.Flag(
