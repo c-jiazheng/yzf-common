@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/peggypig/nacos-go/clients/nacos_client"
-	"github.com/peggypig/nacos-go/clients/service_client"
-	"github.com/peggypig/nacos-go/common/constant"
-	"github.com/peggypig/nacos-go/common/http_agent"
-	"github.com/peggypig/nacos-go/vo"
+	"github.com/litian33/nacos-go/clients/nacos_client"
+	"github.com/litian33/nacos-go/clients/service_client"
+	"github.com/litian33/nacos-go/common/constant"
+	"github.com/litian33/nacos-go/common/http_agent"
+	"github.com/litian33/nacos-go/vo"
 	"os"
 	"strconv"
 	"strings"
@@ -60,23 +60,24 @@ func RegistryNacosServer(nacosHost, listenAddress, nacosDiscoverClient, nodeType
 		nacosDiscoverClient = GetFirstIpAddress()
 	}
 
-	/*success, _ := client.RegisterServiceInstance(vo.RegisterServiceInstanceParam{
+	success, _ := client.RegisterServiceInstance(vo.RegisterServiceInstanceParam{
 		Ip:          nacosDiscoverClient,
-		Port:        uint64(port),
-		ServiceName: "node-exporter",
+		Port:        uint64(bindPort),
+		ServiceName: serviceName,
 		Weight:      1000,
 		//ClusterName: "a",
-		Metadata: map[string]string{"node-type":nodeType},
+		Metadata:  map[string]string{"node-type": nodeType},
+		Ephemeral: true,
 	})
-	fmt.Println(success)*/
+	fmt.Println(success)
 
-	err = client.StartBeatTask(vo.BeatTaskParam{
+	/*err = client.StartBeatTask(vo.BeatTaskParam{
 		Ip:   nacosDiscoverClient,
 		Port: uint64(bindPort),
 		//Cluster: "a",
 		Dom:      serviceName,
 		Metadata: map[string]string{"node_type": nodeType},
-	})
+	})*/
 
 	return err
 }
