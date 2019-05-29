@@ -67,7 +67,7 @@ func RegistryNacosServer(nacosHost, listenAddress, nacosDiscoverClient, nodeType
 		Weight:      1000,
 		//ClusterName: "a",
 		Metadata:  map[string]string{"node-type": nodeType},
-		Ephemeral: true,
+		Ephemeral: false,
 	})
 	fmt.Println(success)
 
