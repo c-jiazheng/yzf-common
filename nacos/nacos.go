@@ -7,12 +7,10 @@ import (
 	"github.com/litian33/nacos-go/common/constant"
 	"github.com/litian33/nacos-go/common/http_agent"
 	"github.com/litian33/nacos-go/vo"
-	"log"
 	"net"
 	"os"
 	"strconv"
 	"strings"
-	"time"
 )
 
 func GetFirstIpAddress() (ip string) {
@@ -61,7 +59,7 @@ func RegistryNacosServer(nacosHost, listenAddress, nacosDiscoverClient, nodeType
 		nacosDiscoverClient = GetFirstIpAddress()
 	}
 
-	go func() {
+	/*go func() {
 		for {
 			// 创建计时器
 			var timer *time.Timer
@@ -83,14 +81,14 @@ func RegistryNacosServer(nacosHost, listenAddress, nacosDiscoverClient, nodeType
 			}
 			<-timer.C
 		}
-	}()
+	}()*/
 
-	/*err = client.StartBeatTask(vo.BeatTaskParam{
-		Ip:   nacosDiscoverClient,
-		Port: uint64(bindPort),
-		//Cluster: "a",
+	err = client.StartBeatTask(vo.BeatTaskParam{
+		Ip:          nacosDiscoverClient,
+		Port:        uint64(bindPort),
 		ServiceName: serviceName,
 		Metadata:    map[string]string{"node_type": nodeType},
-	})*/
+		Ephemeral:   true,
+	})
 	return err
 }
