@@ -79,7 +79,7 @@ func RegistryNacosServer(nacosHost, listenAddress, nacosDiscoverClient, nodeType
 			if errInner != nil {
 				break
 			} else {
-				log.Println("nacos redister error:%s", errInner.Error())
+				log.Println("nacos redgister error!")
 			}
 			<-timer.C
 		}
