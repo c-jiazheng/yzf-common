@@ -92,6 +92,5 @@ func RegistryNacosServer(nacosHost, listenAddress, nacosDiscoverClient, nodeType
 		ServiceName: serviceName,
 		Metadata:    map[string]string{"node_type": nodeType},
 	})*/
-
 	return err
 }
